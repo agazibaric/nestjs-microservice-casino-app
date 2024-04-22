@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=test
+    ports:
+      - 27017:27017
+    networks:
+        - casino_app_net
+
+  rabbitmq:
+    image: rabbitmq:latest
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - /var/lib/rabbitmq
+    networks:
+      - casino_app_net
+
+networks:
+  casino_app_net:
+    driver: bridge
