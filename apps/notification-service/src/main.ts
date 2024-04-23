@@ -11,7 +11,7 @@ async function bootstrap() {
   const queueUrl =
     process.env.MESSAGE_BROKER_SERVICE_QUEUE_URL || 'amqp://localhost:5672';
   const queueName =
-    process.env.MESSAGE_BROKER_SERVICE_QUEUE_NAME || 'notification_queue';
+    process.env.MESSAGE_BROKER_SERVICE_QUEUE_NAME || 'promotion_queue';
 
   const app = await NestFactory.create(NotificationModule);
   app.connectMicroservice<MicroserviceOptions>({

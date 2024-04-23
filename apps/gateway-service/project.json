@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/gateway-service/src",
   "projectType": "application",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nrwl/webpack:webpack",
@@ -14,7 +15,8 @@
         "main": "apps/gateway-service/src/main.ts",
         "tsConfig": "apps/gateway-service/tsconfig.app.json",
         "assets": ["apps/gateway-service/src/assets"],
-        "webpackConfig": "apps/gateway-service/webpack.config.js"
+        "webpackConfig": "apps/gateway-service/webpack.config.js",
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {
@@ -49,7 +51,10 @@
         "jestConfig": "apps/gateway-service/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "docker-build": {
+      "dependsOn": ["build"],
+      "command": "docker build -f apps/gateway-service/Dockerfile . -t gateway-service"
     }
-  },
-  "tags": []
+  }
 }

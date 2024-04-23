@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/promotion-service/src",
   "projectType": "application",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nrwl/webpack:webpack",
@@ -14,7 +15,8 @@
         "main": "apps/promotion-service/src/main.ts",
         "tsConfig": "apps/promotion-service/tsconfig.app.json",
         "assets": ["apps/promotion-service/src/assets"],
-        "webpackConfig": "apps/promotion-service/webpack.config.js"
+        "webpackConfig": "apps/promotion-service/webpack.config.js",
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {
@@ -49,7 +51,10 @@
         "jestConfig": "apps/promotion-service/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "docker-build": {
+      "dependsOn": ["build"],
+      "command": "docker build -f apps/promotion-service/Dockerfile . -t promotion-service"
     }
-  },
-  "tags": []
+  }
 }

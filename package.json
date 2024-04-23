@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "serve": "nx run-many --parallel --target=serve --projects=* --maxParallel=100",
-    "build": "nx run-many --parallel --target=build --projects=* --maxParallel=100"
+    "serve": "nx run-many --parallel --target=serve --projects=* --maxParallel=10",
+    "build": "nx run-many --parallel --target=build --projects=* --maxParallel=10",
+    "build:docker": "npx nx run-many --parallel --target=docker-build --projects=* --maxParallel=10"
   },
   "private": true,
   "dependencies": {

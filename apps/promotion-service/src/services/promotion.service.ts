@@ -11,7 +11,7 @@ export class PromotionService {
     @InjectModel('Promotion')
     private promotionModel: Model<PromotionType>,
     @Inject('MESSAGE_BROKER_SERVICE')
-    private readonly notificationService: ClientProxy,
+    private readonly messageBrokerService: ClientProxy,
     @Inject('USER_SERVICE')
     private readonly userService: ClientProxy,
   ) {}
@@ -28,7 +28,7 @@ export class PromotionService {
     const promotion = await promotionModel.save();
 
     firstValueFrom(
-      this.notificationService.send('promotion_created', promotion),
+      this.messageBrokerService.send('promotion_created', promotion),
       { defaultValue: undefined },
     ).catch((err) =>
       Logger.error('Failed to send message to promotion_created', err),
@@ -52,19 +52,16 @@ export class PromotionService {
         message: 'Promotion is not active',
       });
 
-    promotion.isActive = false;
-
-    await promotion.save();
-
-    firstValueFrom(
+    await firstValueFrom(
       this.userService.send('user_increase_balance', {
         amount: promotion.amount,
         userId: dto.userId,
       }),
       { defaultValue: undefined },
-    ).catch((err) =>
-      Logger.error('Failed to send message to promotion_claimed', err),
     );
+
+    promotion.isActive = false;
+    await promotion.save();
   }
 
   async getAll(): Promise<PromotionType[]> {

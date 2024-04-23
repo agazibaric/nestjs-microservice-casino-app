@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/authentication-service/src",
   "projectType": "application",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nrwl/webpack:webpack",
@@ -14,7 +15,8 @@
         "main": "apps/authentication-service/src/main.ts",
         "tsConfig": "apps/authentication-service/tsconfig.app.json",
         "assets": ["apps/authentication-service/src/assets"],
-        "webpackConfig": "apps/authentication-service/webpack.config.js"
+        "webpackConfig": "apps/authentication-service/webpack.config.js",
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {
@@ -49,7 +51,10 @@
         "jestConfig": "apps/authentication-service/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "docker-build": {
+      "dependsOn": ["build"],
+      "command": "docker build -f apps/authentication-service/Dockerfile . -t authentication-service"
     }
-  },
-  "tags": []
+  }
 }

@@ -15,6 +15,8 @@ export class ClientConfigurationService {
     const messageBrokerServiceQueueUrl = configService.getOrThrow<string>(
       'MESSAGE_BROKER_SERVICE_QUEUE_URL',
     );
+    const userServiceHost =
+      configService.getOrThrow<string>('USER_SERVICE_HOST');
 
     this.clientConfigurations = {
       messageBrokerService: {
@@ -30,6 +32,7 @@ export class ClientConfigurationService {
       userService: {
         transport: Transport.TCP,
         options: {
+          host: userServiceHost,
           port: 8003,
         },
       },

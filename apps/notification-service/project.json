@@ -3,6 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/notification-service/src",
   "projectType": "application",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nrwl/webpack:webpack",
@@ -14,7 +15,8 @@
         "main": "apps/notification-service/src/main.ts",
         "tsConfig": "apps/notification-service/tsconfig.app.json",
         "assets": ["apps/notification-service/src/assets"],
-        "webpackConfig": "apps/notification-service/webpack.config.js"
+        "webpackConfig": "apps/notification-service/webpack.config.js",
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {
@@ -49,7 +51,10 @@
         "jestConfig": "apps/notification-service/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "docker-build": {
+      "dependsOn": ["build"],
+      "command": "docker build -f apps/notification-service/Dockerfile . -t notification-service"
     }
-  },
-  "tags": []
+  }
 }

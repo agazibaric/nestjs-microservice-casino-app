@@ -6,7 +6,7 @@
 
 - [Node.js](https://nodejs.org/en/) (18 or higher)
 
-- [Docker](https://www.docker.com/) and [docker compose](https://docs.docker.com/compose/)
+- [Docker](https://www.docker.com/)
 
 ### Optional
 
@@ -22,50 +22,104 @@ npm i -g nx
 
 <br>
 
-## 💾 Installation
+## 🚀 Run the application
 
-Go to root of the project and run:
+1. Install dependencies
 
 ```bash
 npm install
 ```
 
----
-
-<br>
-
-## 🚀 Run the application
-
-1. Run the script which creates `.env` files:
+1. Bundle the code and build docker images
 
 ```bash
-bash scripts/create-env-files.sh
+npm run build:docker
 ```
 
-2. Spin up database container with following command:
+2. Run the microservices inside of docker containers
 
 ```bash
 docker-compose up
 ```
 
-3. Run services:
-
-```bash
-npm run serve
-```
-
-You can also run single service with nx:
-
-4. Go to http://127.0.0.1:8000/promotion/health to check is it working.
-
-5. Try also http://127.0.0.1:8000/promotion/all. This should return empty array as you don't have any promotions in db.
-
-6. If you have nx cli you can also run single service with:
-
-```bash
-nx serve promotion-service
-```
-
----
-
 <br>
+
+## Endpoints:
+
+1. Sign up - POST on http://localhost:8000/user
+
+   - **HTTP Method:** POST
+   - **URL:** http://localhost:8000/user
+   - **Body:**
+     ```json
+     {
+       "email": "user@example.com",
+       "password": "your_password"
+     }
+     ```
+   - **Description:** This endpoint allows users to sign up for the casino application by providing their email and password.
+
+2. Login - POST on http://localhost:8000/login
+
+   - **HTTP Method:** POST
+   - **URL:** http://localhost:8000/login
+   - **Body:**
+     ```json
+     {
+       "email": "user@example.com",
+       "password": "your_password"
+     }
+     ```
+   - **Description:** This endpoint allows users to log in to the casino application by providing their email and password.
+
+3. Create Staff - POST on http://localhost:8000/user/staff
+
+   - **HTTP Method:** POST
+   - **URL:** http://localhost:8000/user/staff
+   - **Body:**
+     ```json
+     {
+       "email": "staff@example.com",
+       "password": "staff_password"
+     }
+     ```
+   - **Description:** This endpoint allows staff members to be created for the casino application by providing their email and password.
+
+4. Get User Promotion - GET on http://localhost:8000/promotion/user
+
+   - **HTTP Method:** GET
+   - **URL:** http://localhost:8000/promotion/user
+   - **Description:** This endpoint retrieves promotions associated with the current user.
+
+5. Claim Promotion - POST on http://localhost:8000/promotion/{promotionId}/claim
+
+   - **HTTP Method:** POST
+   - **URL:** http://localhost:8000/promotion/{promotionId}/claim
+   - **Description:** This endpoint allows users to claim a specific promotion by providing its ID.
+
+6. Create Promotion - POST on http://localhost:8000/promotion
+
+   - **HTTP Method:** POST
+   - **URL:** http://localhost:8000/promotion
+   - **Body:**
+     ```json
+     {
+       "title": "New promotion",
+       "description": "Promotion description",
+       "amount": 50,
+       "userId": "6627c461b016914b0f4de02c"
+     }
+     ```
+   - **Description:** This endpoint allows staff members to create new promotions for the casino application.
+
+7. Get "Me" - GET on http://localhost:8000/me
+
+   - **HTTP Method:** GET
+   - **URL:** http://localhost:8000/me
+   - **Description:** This endpoint allows users to retrieve their information and current balance from claiming promotions.
+
+8. WebSocket - ws://localhost:8001
+
+   - **Type:** WebSocket
+   - **URL:** ws://localhost:8001
+   - **Description:** This WebSocket endpoint allows users to listen for new promotions in real-time.
